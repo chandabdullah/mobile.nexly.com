@@ -1,0 +1,21 @@
+# Flutter + Get CLI Cursor Rules
+
+- **No Comments in Dart Code:** Do not add inline comments (`//`, `/* */`, `///`) inside Dart files.
+- **Max File Length:** Any Dart file must stay under 300 lines. Split large files into focused widgets/classes.
+- **Architecture Is Mandatory:** Project structure inside `lib/app/` must follow Get CLI + clean separation:
+  - `core/`
+  - `data/`
+  - `domain/`
+  - `modules/`
+  - `routes/`
+- **Core Structure:** `lib/app/core/` must contain shared app-level concerns, including:
+  - `theme/`
+  - `utils/`
+  - `environment/`
+- **Theme Source of Truth:** Define app theme configuration in `lib/app/core/theme/` (for example `app_theme.dart`).
+- **Color Source of Truth:** All app colors must be declared in `lib/app/core/theme/app_colors.dart` inside `AppColor` class.
+- **No Direct/Custom Colors Outside AppColor:** Do not use hardcoded colors (`Color(...)`, hex literals, `Colors.*`, etc.) outside `AppColor`.
+- **Text Style Rule:** Do not use `Theme.of(context).textTheme.bodyLarge`, `bodyMedium`, `bodySmall`, or similar `textTheme` shortcuts anywhere.
+- **Use Explicit TextStyle:** Always use explicit `TextStyle(...)` (or project constants that resolve to explicit `TextStyle`) for text styling.
+- **Module Component Placement:** Module-specific UI components must live inside that module only (for example `lib/app/modules/home/views/widgets/`).
+- **No Deprecated Methods:** Do not use deprecated methods. For example, instead of `withOpacity(...)` use `withAlpha(...)` with appropriate 0-255 values (e.g. `withOpacity(0.5)` -> `withAlpha(128)`).
