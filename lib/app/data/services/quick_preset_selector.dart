@@ -15,7 +15,7 @@ class QuickPresetSelector {
           )
           .toList();
       if (audio.isNotEmpty) {
-        audio.sort((a, b) => _score(b).compareTo(_score(a)));
+        audio.sort((a, b) => _audioScore(b).compareTo(_audioScore(a)));
         return audio.first;
       }
       return prepared.defaultOption;
@@ -66,6 +66,22 @@ class QuickPresetSelector {
       }
     }
     return 0;
+  }
+
+  static int _audioScore(PreparedDownloadOption option) {
+    int score = _score(option);
+    final String fileName = option.fileName.toLowerCase();
+    final String subtitle = option.subtitle.toLowerCase();
+
+    if (fileName.endsWith('.m4a') || subtitle.contains('m4a')) {
+      score += 1000000000;
+    } else if (fileName.endsWith('.mp3') || subtitle.contains('mp3')) {
+      score += 900000000;
+    } else if (fileName.endsWith('.webm') || subtitle.contains('webm')) {
+      score += 100000000;
+    }
+
+    return score;
   }
 
   static bool _isMp4WithAudio(PreparedDownloadOption option) {

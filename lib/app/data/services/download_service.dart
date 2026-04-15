@@ -359,9 +359,9 @@ class DownloadService {
             kind: PreparedDownloadKind.audio,
             label: audioLabel,
             subtitle:
-                'Audio only • ${stream.container.name.toUpperCase()} • ${_formatFileSize(stream.size.totalMegaBytes)}',
+                'Audio only • ${_audioContainerLabel(stream)} • ${_formatFileSize(stream.size.totalMegaBytes)}',
             fileName: _sanitizeFileName(
-              '${video.title}_audio.${stream.container.name}',
+              '${video.title}_audio.${_audioFileExtension(stream)}',
             ),
             url: stream.url.toString(),
             headers: _youtubeHeaders,
@@ -869,6 +869,20 @@ class DownloadService {
 
     final int kbps = (stream.bitrate.bitsPerSecond / 1000).round();
     return '$kbps kbps';
+  }
+
+  String _audioContainerLabel(AudioOnlyStreamInfo stream) {
+    if (stream.container.name.toLowerCase() == 'mp4') {
+      return 'M4A';
+    }
+    return stream.container.name.toUpperCase();
+  }
+
+  String _audioFileExtension(AudioOnlyStreamInfo stream) {
+    if (stream.container.name.toLowerCase() == 'mp4') {
+      return 'm4a';
+    }
+    return stream.container.name.toLowerCase();
   }
 
   String _hostLabel(Uri uri) {
